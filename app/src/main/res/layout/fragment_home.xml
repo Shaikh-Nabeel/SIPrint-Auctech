@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".home.fragment.HomeFragment">
+
+    <ImageView
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:src="@mipmap/filter_icon"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toTopOf="@id/search_ll"
+        app:layout_constraintBottom_toBottomOf="@id/search_ll"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/filter"
+        android:contentDescription="@string/filter"
+       />
+
+    <LinearLayout
+        android:id="@+id/search_ll"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:layout_constraintStart_toEndOf="@+id/filter"
+        app:layout_constraintEnd_toStartOf="@id/upload"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal"
+        android:background="@drawable/button_filled_8dp"
+        android:backgroundTint="#DCDCDC"
+        >
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/baseline_search_24"
+            />
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="15dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/grey_1"
+            android:textSize="19sp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Search"
+            />
+        
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/baseline_cloud_upload_24"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toTopOf="@id/search_ll"
+        app:layout_constraintBottom_toBottomOf="@id/search_ll"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/upload"
+        android:contentDescription="@string/filter"
+        app:tint="@color/blue" />
+
+
+    <TextView
+        android:id="@+id/recent_uploads"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textSize="19sp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Recent uploads"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter"
+        android:layout_marginTop="25dp"
+        />
+
+    <ScrollView
+        android:id="@+id/scrolView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/recent_uploads"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="5dp"
+        android:scrollbars="none">
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/black"
+                android:showDividers="middle"
+                android:weightSum="4"
+                >
+                <TextView
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:text="DateTime"
+                    android:textSize="13sp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_bold"
+                    android:padding="8dp" />
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Uploaded By"
+                    android:textSize="13sp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="center"
+                    android:padding="8dp" />
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Documents"
+                    android:textSize="13sp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="center"
+                    android:padding="8dp" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="Share"
+                    android:textSize="13sp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="center"
+                    android:padding="8dp" />
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

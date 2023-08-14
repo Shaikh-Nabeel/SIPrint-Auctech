@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUpActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#6562DF"
+        android:text="Sign up"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:fontFamily="@font/poppins_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/heading"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/form1"
+        app:layout_constraintTop_toBottomOf="@+id/heading"
+        android:layout_marginTop="40dp"
+        >
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Display Name"-->
+<!--            android:textColor="@color/grey_1"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_marginStart="20dp"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:selectAllOnFocus="true"-->
+<!--            android:fontFamily="@font/poppins_medium"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/heading"/>-->
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="Display Name"
+            android:id="@+id/displayNameTV"
+            android:background="@drawable/outline_border_8dp"
+            android:backgroundTint="@null"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:inputType="text"
+            android:maxLength="30"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey_1"
+            android:textSize="15sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="Your Name"
+            android:id="@+id/yourNameTV"
+            android:background="@drawable/outline_border_8dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:inputType="text"
+            android:maxLength="14"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey_1"
+            android:textSize="15sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_medium"
+            android:id="@+id/email"
+            android:hint="Email"
+            android:background="@drawable/outline_border_8dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:inputType="textEmailAddress"
+            android:maxLength="30"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey_1"
+            android:textSize="15sp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="Alternate Mobile No."
+            android:id="@+id/alternateMobileNo"
+            android:background="@drawable/outline_border_8dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:inputType="number"
+            android:maxLength="15"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey_1"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="26dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_medium"
+            android:background="@drawable/button_filled_8dp"
+            android:text="Sign up"
+            />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
