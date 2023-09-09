@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_filled_8dp"
+    android:backgroundTint="@color/white"
+    android:padding="16dp">
+
+    <!-- PDF Icon Image View -->
+    <ImageView
+        android:id="@+id/pdfIconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@mipmap/docs" />
+
+    <!-- Title Text View -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_medium"
+        android:textColor="@color/black"
+        android:layout_toEndOf="@id/pdfIconImageView"
+        android:text="PDF Title29387498.pdf"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="15sp" />
+
+    <!-- PDF Details -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/titleTextView"
+        android:layout_marginTop="15dp"
+        android:id="@+id/detailLL">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Date -->
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/grey"
+                android:text="Date:" />
+
+            <!-- Actual Date -->
+            <TextView
+                android:id="@+id/actualDateTextView"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/black"
+                android:text="22/12/2023 10:34:00" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Label -->
+            <TextView
+                android:id="@+id/labelTextView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/grey"
+                android:text="Label:" />
+
+            <!-- Actual Label -->
+            <TextView
+                android:id="@+id/actualLabelTextView"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/black"
+                android:text="Actual Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/grey"
+                android:text="Description:" />
+
+            <!-- Actual Description -->
+            <TextView
+                android:id="@+id/actualDescriptionTextView"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/black"
+                android:text="Actual Description" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Uploaded By -->
+            <TextView
+                android:id="@+id/uploadedByTextView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/grey"
+                android:text="Uploaded By:" />
+
+            <!-- Actual Uploaded By -->
+            <TextView
+                android:id="@+id/actualUploadedByTextView"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/black"
+                android:text="Actual Uploaded By" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detailLL"
+        android:id="@+id/progressBarHz"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blue"
+        />
+
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:weightSum="3"
+        android:layout_below="@+id/progressBarHz"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:layout_height="wrap_content"
+            android:drawableStart="@mipmap/edit"
+            android:backgroundTint="@color/blue"
+            android:text="Edit" />
+
+        <Button
+            android:id="@+id/shareButton"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/blue"
+            android:layout_marginEnd="5dp"
+            android:text="Share" />
+
+        <Button
+            android:id="@+id/downloadButton"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:backgroundTint="@color/blue"
+            android:layout_height="wrap_content"
+            android:text="Download" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/blue"
+        android:layout_centerInParent="true"
+        android:elevation="5dp"
+        android:id="@+id/progressbar"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

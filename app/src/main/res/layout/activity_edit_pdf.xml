@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".initials.activity.SignUpActivity">
+    tools:context=".home.activity.EditPdfActivity">
 
 
     <ImageView
@@ -26,59 +26,36 @@
         android:orientation="vertical"
         android:id="@+id/form1"
         app:layout_constraintTop_toBottomOf="@+id/logo"
-        android:layout_marginTop="40dp"
         >
 
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Display Name"-->
-<!--            android:textColor="@color/grey_1"-->
-<!--            android:textSize="16sp"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:layout_marginEnd="20dp"-->
-<!--            android:selectAllOnFocus="true"-->
-<!--            android:fontFamily="@font/poppins_medium"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/heading"/>-->
-
-        <RelativeLayout
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_gravity="center_horizontal"
-            >
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@mipmap/profile"
-                android:id="@+id/profile_iv"
-                android:layout_alignParentTop="true" />
-
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="27dp"
-                android:src="@mipmap/edit" />
-
-
-        </RelativeLayout>
-
-
         <TextView
-            android:id="@+id/number_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:text="You look new to us.\nKindly Introduce yourself."
+            android:text="Edit Document details"
+            android:gravity="center"
             android:textColor="@color/blue"
             android:textSize="18sp"
+            android:selectAllOnFocus="true"
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_img"/>
+
+        <TextView
+            android:id="@+id/pdfName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Edit Document details.pdf"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/grey"
+            android:textSize="15sp"
             android:selectAllOnFocus="true"
             android:fontFamily="@font/poppins_medium"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,102 +66,60 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:fontFamily="@font/poppins_medium"
-            android:hint="Display Name"
-            android:id="@+id/displayNameTV"
+            android:hint="Label"
+            android:id="@+id/labelET"
             android:background="@drawable/border_grey_10dp"
-            android:backgroundTint="@null"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:inputType="text"
-            android:visibility="gone"
-            android:maxLength="30"
+            android:maxLines="3"
+            android:maxLength="50"
             android:textColor="@color/black"
             android:textColorHint="@color/grey_1"
             android:textSize="15sp" />
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="100dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:fontFamily="@font/poppins_medium"
-            android:hint="Your Name"
-            android:id="@+id/yourNameET"
+            android:id="@+id/descriptionET"
+            android:hint="Description"
             android:background="@drawable/border_grey_10dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:elevation="4dp"
-            android:inputType="text"
-            android:maxLength="14"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey_1"
-            android:textSize="15sp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:fontFamily="@font/poppins_medium"
-            android:id="@+id/email"
-            android:hint="Email"
-            android:elevation="4dp"
-            android:background="@drawable/border_grey_10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:inputType="textEmailAddress"
-            android:maxLength="30"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey_1"
-            android:textSize="15sp" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:visibility="gone"
-            android:fontFamily="@font/poppins_medium"
-            android:hint="Alternate Mobile No."
-            android:id="@+id/alternateMobileNo"
-            android:background="@drawable/border_grey_10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:inputType="number"
-            android:maxLength="15"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:gravity="start"
+            android:maxLength="200"
+            android:maxLines="5"
             android:textColor="@color/black"
             android:textColorHint="@color/grey_1"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/signup"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="26dp"
+            android:layout_margin="20dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:paddingTop="8dp"
+            android:gravity="center"
             android:paddingBottom="8dp"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:fontFamily="@font/poppins_medium"
             android:background="@drawable/button_filled_8dp"
-            android:text="Sign up"
+            android:text="UPDATE"
             />
     </LinearLayout>
 
@@ -202,5 +137,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
