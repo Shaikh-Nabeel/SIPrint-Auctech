@@ -2,6 +2,7 @@ package com.auctech.siprint
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.firebase.FirebaseApp
 
 class MySiPrintApplication: Application() {
 
@@ -9,6 +10,6 @@ class MySiPrintApplication: Application() {
         super.onCreate()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         PreferenceManager.init(this)
-//        FirebaseApp.initializeApp(applicationContext)
+        FirebaseApp.initializeApp(this)
     }
 }

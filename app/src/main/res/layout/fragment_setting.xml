@@ -101,7 +101,7 @@
                         android:maxLines="1"
                         android:textStyle="bold"
                         android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
@@ -126,7 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Purchase More Limit"
+                        android:text="Purchase Limit"
                         android:textColor="@color/blue"
                         android:textSize="13sp" />
 
@@ -138,7 +138,7 @@
                         android:text="@string/_50_for_5"
                         android:textColor="@color/blue"
                         android:textStyle="bold"
-                        android:textSize="18sp" />
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>

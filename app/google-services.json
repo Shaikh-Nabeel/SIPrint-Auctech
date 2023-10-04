@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "509949467969",
+    "project_id": "si-print-88485",
+    "storage_bucket": "si-print-88485.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509949467969:android:1a2d627ea759ccd77795c0",
+        "android_client_info": {
+          "package_name": "com.auctech.siprint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509949467969-quiqtrdo26vgsckcc17brgf2du5puvse.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHpMdFZ_yCwSthKbFiHiwMzAAQzDv63wo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509949467969-quiqtrdo26vgsckcc17brgf2du5puvse.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

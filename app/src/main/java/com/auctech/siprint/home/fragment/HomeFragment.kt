@@ -40,14 +40,13 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.registerReceiver
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.auctech.siprint.Constants
 import com.auctech.siprint.PreferenceManager
 import com.auctech.siprint.R
 import com.auctech.siprint.databinding.FragmentHomeBinding
 import com.auctech.siprint.home.activity.EditPdfActivity
+import com.auctech.siprint.home.activity.SelectUserActivity
 import com.auctech.siprint.home.response.InvoicesItem
 import com.auctech.siprint.home.response.ResponseDashboard
 import com.auctech.siprint.home.response.ResponseDateFilter
@@ -64,10 +63,9 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 import java.io.IOException
-import java.net.URLEncoder
 import java.util.Calendar
+
 
 class HomeFragment : Fragment() {
 
@@ -94,6 +92,8 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private var isRequestSent = false;
+
     //pagination
     private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
         val scrollY = binding.scrolView.scrollY
@@ -102,7 +102,14 @@ class HomeFragment : Fragment() {
 
         // Check if we are at the bottom of the scroll view
         if (scrollY + scrollViewHeight >= contentHeight) {
-            Toast.makeText(activity, "Reached at bottom", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(activity, "Reached at bottom", Toast.LENGTH_SHORT).show()
+            if(isRequestSent){
+                return@OnScrollChangedListener
+            }
+            isRequestSent = true
+            Handler().postDelayed({
+                isRequestSent= false
+            }, 3000)
             offset++
             if (isDateFilterActive) {
                 callDateFilterApi()
@@ -171,7 +178,6 @@ class HomeFragment : Fragment() {
 //        callDashboardApi()
 
         binding.scrolView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
-
 
         return binding.root
     }
@@ -735,6 +741,7 @@ class HomeFragment : Fragment() {
 
     }
     var progressBarDialogDetail : ProgressBar? = null
+    var fileToBeShare : String? = null
     private fun openDetailDialog(indexStr: String) {
 
         val dialog = Dialog(requireContext())
@@ -745,7 +752,7 @@ class HomeFragment : Fragment() {
         dialog.setContentView(view)
         dialog.window!!.setGravity(Gravity.CENTER)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
         dialog.window!!.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
 
         val title: TextView = dialog.findViewById(R.id.titleTextView)
@@ -774,6 +781,8 @@ class HomeFragment : Fragment() {
             uploadedByTv.text = inv.sourceName
         }
         shareButton.setOnClickListener {
+//            fileToBeShare = inv.file
+//            showShareChoiceDialog(inv.docID!!)
             shareDoc(inv.file)
         }
 
@@ -790,6 +799,34 @@ class HomeFragment : Fragment() {
             context?.startActivity(intent)
             dialog.dismiss()
         }
+        dialog.show()
+    }
+
+    private fun showShareChoiceDialog(docID : Int) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
+        val view: View = LayoutInflater.from(requireContext())
+            .inflate(R.layout.dialog_share, null, false)
+        dialog.setContentView(view)
+        dialog.window!!.setGravity(Gravity.CENTER)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        dialog.window!!.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val siFolder: LinearLayout = dialog.findViewById(R.id.si_folder_iv)
+        val shareToApp: LinearLayout = dialog.findViewById(R.id.share_to_app)
+
+        siFolder.setOnClickListener{
+            val intent = Intent(requireContext(), SelectUserActivity::class.java)
+            intent.putExtra(Constants.DOC_ID, docID)
+            intent.putExtra(Constants.DOC_NAME, fileNameExtract(fileToBeShare!!))
+            context?.startActivity(intent)
+        }
+
+        shareToApp.setOnClickListener {
+            shareDoc(fileToBeShare!!)
+        }
+
         dialog.show()
     }
 

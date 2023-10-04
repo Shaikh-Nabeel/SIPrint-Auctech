@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,14 +24,25 @@ import com.auctech.siprint.initials.response.ResponseLogin
 import com.auctech.siprint.initials.response.ResponseOtpVerification
 import com.auctech.siprint.services.ApiClient
 import com.auctech.siprint.services.RetrofitClient
+import com.google.android.gms.tasks.Task
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
+import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
+import java.util.concurrent.TimeUnit
 
 class LoginActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityLoginBinding
-    lateinit var phoneNumber: String
+    private var phoneNumber: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +55,10 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Check if the length is 10 characters
                 if (s?.length == 10) {
-                    phoneNumber = s.toString();
-                    loginUser()
+                    phoneNumber = s.toString()
+//                    loginUser()
+                    sendPhoneNumber("+91$phoneNumber")
                 }
             }
 
@@ -66,9 +78,12 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
             }
             val otp = collectOtpFromEditTexts()
-            if (!TextUtils.isEmpty(otp) && otp.length == 4) {
+            if (!TextUtils.isEmpty(otp) && otp.length == 6) {
                 binding.login.isEnabled = false
-                makeOtpVerificationCall(otp)
+                val credential = PhoneAuthProvider.getCredential(mVerificationId?:"", otp)
+                binding.loading.visibility = View.VISIBLE
+                signInWithPhoneAuthCredential(credential)
+//                makeOtpVerificationCall(otp)
             } else {
                 Toast.makeText(
                     this@LoginActivity,
@@ -186,6 +201,7 @@ class LoginActivity : AppCompatActivity() {
                             "Your otp is " + loginResponse.data,
                             Toast.LENGTH_LONG
                         ).show()
+
                     } else {
                         Toast.makeText(
                             this@LoginActivity,
@@ -210,8 +226,168 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    private fun userLogin2() {
+        try{
+            val apiService: ApiClient = RetrofitClient.instance.create(ApiClient::class.java)
+            val call: Call<ResponseOtpVerification> = apiService.userLogin2("91$phoneNumber")
+            binding.loading.visibility = View.VISIBLE
+            call.enqueue(object : Callback<ResponseOtpVerification> {
+                override fun onResponse(call: Call<ResponseOtpVerification>, response: Response<ResponseOtpVerification>) {
+
+                    if (response.isSuccessful || response.code() == 200 && response.body() != null) {
+                        val responseOtpVerification = response.body()
+                        if (responseOtpVerification?.status == 200) {
+                            val statusOfUser = responseOtpVerification.data?.status
+                            if (statusOfUser.equals(Constants.BLOCKED)) {
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    responseOtpVerification.message,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else if (statusOfUser.equals(Constants.NEW_REGISTRATION)) {
+                                PreferenceManager.setStringValue(
+                                    Constants.USER_NUMBER,
+                                    "91$phoneNumber"
+                                )
+                                PreferenceManager.setStringValue(
+                                    Constants.USER_ID,
+                                    responseOtpVerification.data?.id
+                                )
+                                PreferenceManager.setBoolValue(
+                                    Constants.IS_LOGIN,
+                                    true
+                                )
+                                startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+                                finish()
+                            } else if (statusOfUser.equals(Constants.VALID)) {
+                                PreferenceManager.setStringValue(
+                                    Constants.USER_NUMBER,
+                                    "91$phoneNumber"
+                                )
+                                PreferenceManager.setStringValue(
+                                    Constants.USER_ID,
+                                    responseOtpVerification.data?.id
+                                )
+                                PreferenceManager.setBoolValue(
+                                    Constants.IS_LOGIN,
+                                    true
+                                )
+                                PreferenceManager.setBoolValue(
+                                    Constants.IS_SIGNUP,
+                                    true
+                                )
+                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                finish()
+                            }
+                        } else {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                responseOtpVerification?.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                    } else {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            Constants.ERR_MESSAGE,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    binding.loading.visibility = View.GONE
+                    binding.login.isEnabled = true
+                }
+
+                override fun onFailure(call: Call<ResponseOtpVerification>, t: Throwable) {
+                    binding.login.isEnabled = true
+                    binding.loading.visibility = View.GONE
+                    t.printStackTrace()
+                }
+            })
+        }catch (e: Exception){
+            binding.login.isEnabled = true
+            binding.loading.visibility = View.GONE
+            e.printStackTrace()
+        }
+
+    }
+
+    var auth = FirebaseAuth.getInstance()
+    private var mVerificationId: String? = null
+    private var resendingToken: String? = null
+    private fun sendPhoneNumber(phoneNumber: String) {
+        binding.loading.visibility = View.VISIBLE
+        if (phoneNumber.isNotEmpty()) {
+            val options = PhoneAuthOptions
+                .newBuilder().setTimeout(60L, TimeUnit.SECONDS)
+                .setPhoneNumber(phoneNumber)
+                .setActivity(this)
+                .setCallbacks(object : OnVerificationStateChangedCallbacks() {
+                    override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
+                        signInWithPhoneAuthCredential(phoneAuthCredential)
+                    }
+
+                    override fun onVerificationFailed(e: FirebaseException) {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Verification failed: " + e.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        binding.loading.visibility = View.GONE
+                    }
+
+                    override fun onCodeSent(s: String, forceResendingToken: ForceResendingToken) {
+                        mVerificationId = s
+                        resendingToken = forceResendingToken.toString()
+                        binding.loading.visibility = View.GONE
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "OTP sent",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }).build()
+            PhoneAuthProvider.verifyPhoneNumber(options)
+        } else {
+            Toast.makeText(
+                this@LoginActivity,
+                "Please enter a phone number",
+                Toast.LENGTH_SHORT
+            ).show()
+            binding.loading.visibility = View.GONE
+        }
+    }
+
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task: Task<AuthResult> ->
+                if (task.isSuccessful) {
+                    Log.d("adsfsdf", "reached")
+                    // User successfully signed in.
+                    val user = task.result.user
+                    Log.d("AlreadySignIn", "number: " + user!!.phoneNumber)
+//                    Toast.makeText(
+//                        this@LoginActivity,
+//                        "Sign in successful",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+
+                    userLogin2()
+                    // startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                } else {
+                    // Sign in failed.
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Sign in failed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                binding.loading.setVisibility(View.GONE)
+            }
+    }
+
     private fun collectOtpFromEditTexts(): String {
-        val editTexts = arrayOf(binding.otpET1, binding.otpET2, binding.otpET3, binding.otpET4)
+        val editTexts = arrayOf(binding.otpET1, binding.otpET2, binding.otpET3, binding.otpET4,binding.otpET5,binding.otpET6)
         val otpStringBuilder = StringBuilder()
 
         for (editText in editTexts) {
@@ -224,7 +400,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun setupOtpEditTexts() {
-        val editTexts = arrayOf(binding.otpET1, binding.otpET2, binding.otpET3, binding.otpET4)
+        val editTexts = arrayOf(binding.otpET1, binding.otpET2, binding.otpET3, binding.otpET4,binding.otpET5,binding.otpET6)
 
         for (i in editTexts.indices) {
             editTexts[i].addTextChangedListener(object : TextWatcher {

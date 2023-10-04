@@ -201,7 +201,6 @@
             android:id="@+id/otpET5"
             android:layout_marginEnd="7dp"
             android:maxLength="1"
-            android:visibility="gone"
             android:textColor="@color/black"
             android:textColorHint="@color/white"
             android:textSize="15sp" />
@@ -214,7 +213,6 @@
             android:fontFamily="@font/poppins_medium"
             android:gravity="center"
             android:inputType="number"
-            android:visibility="gone"
             android:id="@+id/otpET6"
             android:maxLength="1"
             android:textColor="@color/black"
@@ -250,6 +248,7 @@
         android:layout_marginTop="64dp"
         android:layout_marginBottom="64dp"
         android:visibility="gone"
+        android:indeterminateTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

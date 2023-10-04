@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/button_filled_8dp"
     android:backgroundTint="@color/white"
-    android:padding="16dp">
+    android:padding="13dp">
 
     <!-- PDF Icon Image View -->
     <ImageView
@@ -181,7 +181,8 @@
         <Button
             android:id="@+id/editButton"
             android:layout_width="0dp"
-            android:layout_weight="0.9"
+            android:textSize="12sp"
+            android:layout_weight="0.8"
             android:layout_height="wrap_content"
             android:drawableStart="@mipmap/edit"
             android:backgroundTint="@color/blue"
@@ -191,18 +192,20 @@
             android:id="@+id/shareButton"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:layout_weight="0.9"
+            android:layout_weight="0.8"
             android:layout_marginStart="5dp"
             android:backgroundTint="@color/blue"
             android:layout_marginEnd="5dp"
+            android:textSize="12sp"
             android:text="Share" />
 
         <Button
             android:id="@+id/downloadButton"
             android:layout_width="0dp"
-            android:layout_weight="1.2"
+            android:layout_weight="1.4"
             android:backgroundTint="@color/blue"
             android:layout_height="wrap_content"
+            android:textSize="11sp"
             android:text="Download" />
 
     </LinearLayout>
