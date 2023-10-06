@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".wallet.fragment.WalletFragment">
+
+    <LinearLayout
+        android:id="@+id/cards_ll"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/wallet_card_borderless"
+        android:padding="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:text="@string/available_credit"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="start"
+                android:layout_marginStart="10dp"
+                android:text="0"
+                android:id="@+id/limit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/add_credit"
+        android:background="@drawable/button_filled_8dp"
+        android:textColor="@color/white"
+        android:padding="12dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:id="@+id/submit_date"
+        android:layout_margin="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/cards_ll"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

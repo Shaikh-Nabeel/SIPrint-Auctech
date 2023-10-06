@@ -8,6 +8,8 @@ import com.auctech.siprint.home.response.ResponseSearchUser
 import com.auctech.siprint.initials.response.ResponseLogin
 import com.auctech.siprint.initials.response.ResponseOtpVerification
 import com.auctech.siprint.initials.response.ResponseSignup
+import com.auctech.siprint.profile.response.ReponseUpdateDetail
+import com.auctech.siprint.wallet.response.ResponseTransaction
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -79,6 +81,17 @@ interface ApiClient {
         @Part photo: MultipartBody.Part
     ): Call<ResponseSignup>
 
+    @Multipart
+    @POST("updateUserDetails")
+    fun updateUserDetail(
+        @Part("user_id") userId: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part photo: MultipartBody.Part?
+    ): Call<ReponseUpdateDetail>
+
     @GET("dashboard")
     fun getDashboardData(
         @Query("user_id") userId: String,
@@ -123,6 +136,13 @@ interface ApiClient {
 
     @POST("docShare")
     fun shareDoc(@Body body: JsonObject): Call<ResponseSignup>
+
+    @POST("makeHost")
+    fun makeHost(@Body body: JsonObject): Call<ResponseSignup>
+
+    @POST("getTransactions")
+    fun getTransactions(@Body body: JsonObject): Call<ResponseTransaction>
+
 
 }
 

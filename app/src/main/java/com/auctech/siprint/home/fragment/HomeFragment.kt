@@ -15,6 +15,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.print.PrintAttributes.Margins
 import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextUtils
@@ -40,6 +41,8 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import com.auctech.siprint.Constants
 import com.auctech.siprint.PreferenceManager
@@ -480,6 +483,24 @@ class HomeFragment : Fragment() {
                                     Constants.USER_TYPE,
                                     userData.userType!!
                                 )
+                                PreferenceManager.setStringValue(
+                                    Constants.USER_GENDER,
+                                    userData.gender!!
+                                )
+                                PreferenceManager.setIntValue(
+                                    Constants.SELF_UPLOAD,
+                                    userData.selfUpload!!.toInt()
+                                )
+                                PreferenceManager.setIntValue(
+                                    Constants.PARTY_UPLOAD,
+                                    userData.partyUpload!!.toInt()
+                                )
+                                if(userData.userType.equals("HOST", true)){
+                                    PreferenceManager.setBoolValue(
+                                        Constants.IS_HOST_DRIVER,
+                                        true
+                                    )
+                                }
 
                             } else {
                                 Toast.makeText(
@@ -677,6 +698,9 @@ class HomeFragment : Fragment() {
 
         val newRow = TableRow(activity)
         newRow.gravity = Gravity.CENTER_VERTICAL
+        newRow.elevation = 3f
+        newRow.background = ContextCompat.getDrawable(requireActivity(),R.drawable.table_row_bg)
+
 //        newRow.showDividers = TableRow.SHOW_DIVIDER_MIDDLE
 //        newRow.dividerDrawable = ColorDrawable(Color.BLACK)
         newRow.tag = index
@@ -688,7 +712,7 @@ class HomeFragment : Fragment() {
         dateTimeTextView.layoutParams =
             TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.1f)
         dateTimeTextView.text = dateTime.substring(0, 11)
-        dateTimeTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+        dateTimeTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
         dateTimeTextView.typeface = Typeface.SANS_SERIF
         dateTimeTextView.gravity = Gravity.CENTER
         if (element.sourceID == element.owner) {
@@ -703,7 +727,7 @@ class HomeFragment : Fragment() {
         labelTextView.layoutParams =
             TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.1f)
         labelTextView.text = label
-        labelTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+        labelTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
         labelTextView.typeface = Typeface.SANS_SERIF
         labelTextView.gravity = Gravity.CENTER
         labelTextView.setPadding(8, 8, 8, 8)
@@ -714,7 +738,7 @@ class HomeFragment : Fragment() {
         docsTextView.layoutParams =
             TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.1f)
         docsTextView.text = documentName
-        docsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+        docsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
         docsTextView.typeface = Typeface.create("poppins_light", Typeface.NORMAL)
         docsTextView.gravity = Gravity.CENTER
         docsTextView.setPadding(8, 8, 8, 8)
@@ -735,11 +759,20 @@ class HomeFragment : Fragment() {
         newRow.addView(docsTextView)
         newRow.addView(shareTextView)
 
+        val separator = View(requireContext())
+        val separatorParams = TableRow.LayoutParams(
+            TableRow.LayoutParams.MATCH_PARENT,
+            15
+        )
+        separator.layoutParams = separatorParams
+        binding.tableLayout.addView(separator)
         binding.tableLayout.addView(newRow)
-        binding.tableLayout.showDividers = TableLayout.SHOW_DIVIDER_MIDDLE
-        binding.tableLayout.dividerDrawable = ColorDrawable(Color.BLACK)
+//        binding.tableLayout.showDividers = TableLayout.SHOW_DIVIDER_MIDDLE
+//        binding.tableLayout.dividerDrawable = ColorDrawable(Color.BLACK)
 
     }
+
+
     var progressBarDialogDetail : ProgressBar? = null
     var fileToBeShare : String? = null
     private fun openDetailDialog(indexStr: String) {

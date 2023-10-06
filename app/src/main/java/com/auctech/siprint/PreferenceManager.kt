@@ -39,7 +39,7 @@ class PreferenceManager {
             editor.apply()
         }
 
-        fun getIntValue(key: String?): Int? {
+        fun getIntValue(key: String?): Int {
             return preferences!!.getInt(key, 0)
         }
 

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#EDEDED"
     tools:context=".home.fragment.HomeFragment">
 
     <ImageView
@@ -112,9 +113,7 @@
         android:layout_marginTop="30dp"
         android:padding="5dp"
         android:id="@+id/headingHome"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="#FFDEE3"
+        android:background="#E1CD8B"
         >
 
         <TextView
@@ -128,7 +127,7 @@
             android:fontFamily="@font/poppins_medium"
             android:text="Recent uploads"
             android:layout_marginEnd="15dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="15dp"
             />
 
         <ImageView
@@ -167,18 +166,17 @@
                 android:divider="#D5D5D5"
                 android:showDividers="middle"
                 android:background="@drawable/table_header"
-                android:backgroundTint="@color/blue"
                 android:weightSum="4"
                 android:layout_weight="1"
                 >
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="DateTime"
+                    android:text="Date Time"
                     android:textSize="13sp"
                     android:gravity="center"
                     android:layout_weight="1.1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey"
                     android:fontFamily="@font/poppins_bold"
                     android:padding="8dp" />
 
@@ -188,7 +186,7 @@
                     android:text="Label"
                     android:textSize="13sp"
                     android:layout_weight="1.1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey"
                     android:fontFamily="@font/poppins_bold"
                     android:gravity="center"
                     android:padding="8dp" />
@@ -199,7 +197,7 @@
                     android:text="Documents"
                     android:textSize="13sp"
                     android:layout_weight="1.1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey"
                     android:fontFamily="@font/poppins_bold"
                     android:gravity="center"
                     android:padding="8dp" />
@@ -210,7 +208,7 @@
                     android:text="Share"
                     android:textSize="13sp"
                     android:layout_weight="0.7"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey"
                     android:fontFamily="@font/poppins_bold"
                     android:gravity="center"
                     android:padding="8dp" />

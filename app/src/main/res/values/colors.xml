@@ -13,4 +13,8 @@
     <color name="pink">#cdba7c</color>
     <color name="grey">#6F6F6F</color>
     <color name="light">#fcfcf0</color>
+    <color name="golden">#E1CD8B</color>
+    <color name="light_golden">#85E1CD8B</color>
+    <color name="green">#8525A800</color>
+    <color name="red">#85F60000</color>
 </resources>

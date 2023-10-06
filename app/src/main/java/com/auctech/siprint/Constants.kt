@@ -12,6 +12,10 @@ class Constants {
         const val USER_LIMIT = "user_limit"
         const val USER_TYPE = "user_type"
         const val USER_ID = "user_id"
+        const val USER_GENDER = "user_gender"
+        const val SELF_UPLOAD = "self_upload"
+        const val PARTY_UPLOAD = "party_upload"
+        const val IS_HOST_DRIVER = "is_user_driver"
 
         //user's access type
         const val BLOCKED = "BLOCKED"
