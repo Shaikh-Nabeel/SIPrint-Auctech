@@ -25,6 +25,15 @@
         android:theme="@style/Theme.SIPrint"
         tools:targetApi="31">
         <activity
+            android:name=".home.activity.ContactUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profile.activity.ChangeMobileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CommonWebActivity"
+            android:exported="false" />
+        <activity
             android:name=".wallet.activity.WalletActivity"
             android:exported="false" />
         <activity

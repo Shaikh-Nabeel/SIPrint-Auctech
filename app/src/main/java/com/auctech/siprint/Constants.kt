@@ -32,11 +32,14 @@ class Constants {
         const val DOC_NAME = "doc_name"
 
         //urls
-        const val CONTACT_URL = "https://test.aucaya.com/SI-Print/contact.html"
+//        const val CONTACT_URL = "https://test.aucaya.com/SI-Print/contact.html"
         const val ABOUT_URL = "https://test.aucaya.com/SI-Print/about.html"
-        const val PRIVACY_URL = "https://test.aucaya.com/SI-Print/Privacy_Policy.html"
-        const val TERMS_URL = "https://test.aucaya.com/SI-Print/Terms_Condition.html"
+        const val PRIVACY_URL = "https://test.aucaya.com/si-print/Privacy_Policy__.html"
+        const val TERMS_URL = "https://test.aucaya.com/si-print/Terms_Condition__.html"
 
+
+        //mail
+        const val COMPANY_MAIL = "sleeban162@gmail.com"
 
 
     }

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    tools:context=".profile.activity.ChangeMobileActivity">
+
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/siprint_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/logo"
+        android:contentDescription="@string/filter"
+        />
+
+    <TextView
+        android:id="@+id/number_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/enter_new_mobile_number"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        android:selectAllOnFocus="true"
+        android:fontFamily="@font/poppins_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo"/>
+
+    <LinearLayout
+        android:id="@+id/sign_up_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border_grey_10dp"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:weightSum="10"
+        app:layout_constraintTop_toBottomOf="@+id/number_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="+91"
+            android:textColor="@color/blue"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/number_et"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:background="@null"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="Mobile number"
+            android:gravity="center_vertical"
+            android:maxLength="10"
+            android:textColor="@color/grey_1"
+            android:textSize="16sp"
+            android:inputType="number"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/number_tv" />
+
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/otp_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="OTP"
+        android:textColor="@color/grey_1"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:selectAllOnFocus="true"
+        android:fontFamily="@font/poppins_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_ll"  />
+
+    <LinearLayout
+        android:id="@+id/otp_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:weightSum="6"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/otp_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/login">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@drawable/border_grey_10dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:inputType="number"
+            android:id="@+id/otpET1"
+            android:maxLength="1"
+            android:layout_marginEnd="7dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:importantForAutofill="no"
+            android:focusable="true"
+            tools:ignore="LabelFor" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@drawable/border_grey_10dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:inputType="number"
+            android:id="@+id/otpET2"
+            android:layout_marginEnd="7dp"
+            android:maxLength="1"
+            android:textColor="@color/black"
+            android:textColorHint="@color/white"
+            android:textSize="15sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@drawable/border_grey_10dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:inputType="number"
+            android:id="@+id/otpET3"
+            android:layout_marginEnd="7dp"
+            android:maxLength="1"
+            android:textColor="@color/black"
+            android:textColorHint="@color/white"
+            android:textSize="15sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@drawable/border_grey_10dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:inputType="number"
+            android:id="@+id/otpET4"
+            android:layout_marginEnd="7dp"
+            android:maxLength="1"
+            android:textColor="@color/black"
+            android:textColorHint="@color/white"
+            android:textSize="15sp" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@drawable/border_grey_10dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:inputType="number"
+            android:id="@+id/otpET5"
+            android:layout_marginEnd="7dp"
+            android:maxLength="1"
+            android:textColor="@color/black"
+            android:textColorHint="@color/white"
+            android:textSize="15sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@drawable/border_grey_10dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:inputType="number"
+            android:id="@+id/otpET6"
+            android:maxLength="1"
+            android:textColor="@color/black"
+            android:textColorHint="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="26dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/poppins_medium"
+        android:background="@drawable/button_filled_8dp"
+        android:text="Update"
+        app:layout_constraintTop_toBottomOf="@+id/otp_ll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="64dp"
+        android:visibility="gone"
+        android:elevation="10dp"
+        android:indeterminateTint="@color/blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

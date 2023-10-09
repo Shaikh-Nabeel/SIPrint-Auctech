@@ -79,6 +79,11 @@ class LoginActivity : AppCompatActivity() {
             }
             val otp = collectOtpFromEditTexts()
             if (!TextUtils.isEmpty(otp) && otp.length == 6) {
+                if (mVerificationId == null){
+                    Toast.makeText(this@LoginActivity,
+                        "Verify mobile number before submitting otp",Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
                 binding.login.isEnabled = false
                 val credential = PhoneAuthProvider.getCredential(mVerificationId?:"", otp)
                 binding.loading.visibility = View.VISIBLE
@@ -244,6 +249,7 @@ class LoginActivity : AppCompatActivity() {
                                     responseOtpVerification.message,
                                     Toast.LENGTH_LONG
                                 ).show()
+                                binding.loading.visibility = View.GONE
                             } else if (statusOfUser.equals(Constants.NEW_REGISTRATION)) {
                                 PreferenceManager.setStringValue(
                                     Constants.USER_NUMBER,
@@ -257,6 +263,7 @@ class LoginActivity : AppCompatActivity() {
                                     Constants.IS_LOGIN,
                                     true
                                 )
+                                binding.loading.visibility = View.GONE
                                 startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
                                 finish()
                             } else if (statusOfUser.equals(Constants.VALID)) {
@@ -276,10 +283,12 @@ class LoginActivity : AppCompatActivity() {
                                     Constants.IS_SIGNUP,
                                     true
                                 )
+                                binding.loading.visibility = View.GONE
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                                 finish()
                             }
                         } else {
+                            binding.loading.visibility = View.GONE
                             Toast.makeText(
                                 this@LoginActivity,
                                 responseOtpVerification?.message,
@@ -294,7 +303,6 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    binding.loading.visibility = View.GONE
                     binding.login.isEnabled = true
                 }
 
@@ -371,18 +379,18 @@ class LoginActivity : AppCompatActivity() {
 //                        "Sign in successful",
 //                        Toast.LENGTH_SHORT
 //                    ).show()
-
+                    binding.loading.setVisibility(View.GONE)
                     userLogin2()
                     // startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                 } else {
                     // Sign in failed.
+                    binding.loading.setVisibility(View.GONE)
                     Toast.makeText(
                         this@LoginActivity,
                         "Sign in failed",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                binding.loading.setVisibility(View.GONE)
             }
     }
 

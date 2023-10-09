@@ -12,10 +12,12 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
+import com.auctech.siprint.CommonWebActivity
 import com.auctech.siprint.Constants
 import com.auctech.siprint.PreferenceManager
 import com.auctech.siprint.R
 import com.auctech.siprint.databinding.FragmentSettingBinding
+import com.auctech.siprint.home.activity.ContactUsActivity
 import com.auctech.siprint.initials.activity.LoginActivity
 import com.auctech.siprint.initials.response.ResponseSignup
 import com.auctech.siprint.profile.activity.ProfileUpdateActivity
@@ -23,6 +25,7 @@ import com.auctech.siprint.services.ApiClient
 import com.auctech.siprint.services.RetrofitClient
 import com.auctech.siprint.wallet.activity.WalletActivity
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -52,28 +55,41 @@ class SettingFragment : Fragment() {
         val customTabsIntent = CustomTabsIntent.Builder().build()
 
         binding.contactLl.setOnClickListener {
-            customTabsIntent.launchUrl(
-                requireActivity(),
-                Uri.parse(Constants.CONTACT_URL)
-            )
+//            customTabsIntent.launchUrl(
+//                requireActivity(),
+//                Uri.parse(Constants.CONTACT_URL)
+//            )
+            val intent = Intent(requireContext(), ContactUsActivity::class.java)
+            startActivity(intent)
         }
         binding.privacyPolicyLl.setOnClickListener {
-            customTabsIntent.launchUrl(
-                requireActivity(),
-                Uri.parse(Constants.PRIVACY_URL)
-            )
+//            customTabsIntent.launchUrl(
+//                requireActivity(),
+//                Uri.parse(Constants.PRIVACY_URL)
+//            )
+
+            val intent = Intent(requireContext(), CommonWebActivity::class.java)
+            intent.putExtra("url", Constants.PRIVACY_URL)
+            startActivity(intent)
         }
         binding.termsAndConditionLl.setOnClickListener {
-            customTabsIntent.launchUrl(
-                requireActivity(),
-                Uri.parse(Constants.TERMS_URL)
-            )
+//            customTabsIntent.launchUrl(
+//                requireActivity(),
+//                Uri.parse(Constants.TERMS_URL)
+//            )
+            val intent = Intent(requireContext(), CommonWebActivity::class.java)
+            intent.putExtra("url", Constants.TERMS_URL)
+            startActivity(intent)
         }
         binding.aboutLl.setOnClickListener {
-            customTabsIntent.launchUrl(
-                requireActivity(),
-                Uri.parse(Constants.ABOUT_URL)
-            )
+//            customTabsIntent.launchUrl(
+//                requireActivity(),
+//                Uri.parse(Constants.ABOUT_URL)
+//            )
+
+            val intent = Intent(requireContext(), CommonWebActivity::class.java)
+            intent.putExtra("url", Constants.ABOUT_URL)
+            startActivity(intent)
         }
 
         binding.wallet.setOnClickListener {
@@ -91,6 +107,7 @@ class SettingFragment : Fragment() {
                 PreferenceManager.deletePref()
                 activity?.startActivity(Intent(requireActivity(), LoginActivity::class.java))
                 activity?.finish()
+                FirebaseAuth.getInstance().signOut()
                 dialog?.dismiss()
             }
             alertDialogBuilder.setNegativeButton(
@@ -126,7 +143,7 @@ class SettingFragment : Fragment() {
             showProgressBar()
             val apiService: ApiClient = RetrofitClient.instance.create(ApiClient::class.java)
             val jsonObject = JsonObject()
-            jsonObject.addProperty("user_id" , PreferenceManager.getStringValue(Constants.USER_ID))
+            jsonObject.addProperty("user_id", PreferenceManager.getStringValue(Constants.USER_ID))
             jsonObject.addProperty("userType", "HOST")
             apiService.makeHost(jsonObject).enqueue(object : Callback<ResponseSignup> {
                 override fun onResponse(
@@ -135,7 +152,7 @@ class SettingFragment : Fragment() {
                 ) {
                     if (response.code() == 200 && response.body() != null) {
                         val responseSearch = response.body()
-                        if(responseSearch?.status == 200){
+                        if (responseSearch?.status == 200) {
                             binding.wallet.visibility = View.VISIBLE
                             binding.activateAccount.visibility = View.GONE
                             PreferenceManager.setBoolValue(Constants.IS_HOST_DRIVER, true)
@@ -144,7 +161,7 @@ class SettingFragment : Fragment() {
                                 responseSearch.message,
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }else{
+                        } else {
                             Toast.makeText(
                                 requireContext(),
                                 responseSearch?.message,

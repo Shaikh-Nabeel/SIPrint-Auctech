@@ -42,6 +42,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import com.auctech.siprint.Constants
@@ -54,6 +55,7 @@ import com.auctech.siprint.home.response.InvoicesItem
 import com.auctech.siprint.home.response.ResponseDashboard
 import com.auctech.siprint.home.response.ResponseDateFilter
 import com.auctech.siprint.home.response.ResponseSearch
+import com.auctech.siprint.home.response.UserData
 import com.auctech.siprint.initials.activity.LoginActivity
 import com.auctech.siprint.initials.response.ResponseSignup
 import com.auctech.siprint.services.ApiClient
@@ -463,45 +465,7 @@ class HomeFragment : Fragment() {
                                         )
                                     )
                                 }
-                                PreferenceManager.setStringValue(
-                                    Constants.USER_NAME,
-                                    userData.name!!
-                                )
-                                PreferenceManager.setStringValue(
-                                    Constants.USER_EMAIL,
-                                    userData.email!!
-                                )
-                                PreferenceManager.setStringValue(
-                                    Constants.USER_PHOTO,
-                                    userData.photo!!
-                                )
-                                PreferenceManager.setIntValue(
-                                    Constants.USER_LIMIT,
-                                    userData.credits!!
-                                )
-                                PreferenceManager.setStringValue(
-                                    Constants.USER_TYPE,
-                                    userData.userType!!
-                                )
-                                PreferenceManager.setStringValue(
-                                    Constants.USER_GENDER,
-                                    userData.gender!!
-                                )
-                                PreferenceManager.setIntValue(
-                                    Constants.SELF_UPLOAD,
-                                    userData.selfUpload!!.toInt()
-                                )
-                                PreferenceManager.setIntValue(
-                                    Constants.PARTY_UPLOAD,
-                                    userData.partyUpload!!.toInt()
-                                )
-                                if(userData.userType.equals("HOST", true)){
-                                    PreferenceManager.setBoolValue(
-                                        Constants.IS_HOST_DRIVER,
-                                        true
-                                    )
-                                }
-
+                               setUserData(userData)
                             } else {
                                 Toast.makeText(
                                     context,
@@ -522,6 +486,55 @@ class HomeFragment : Fragment() {
 
         } catch (e: Exception) {
             binding.loading.visibility = View.GONE
+            e.printStackTrace()
+        }
+    }
+
+    private fun setUserData(userData: UserData) {
+        try{
+            PreferenceManager.setStringValue(
+                Constants.USER_NAME,
+                userData.name.toString()
+            )
+            PreferenceManager.setStringValue(
+                Constants.USER_EMAIL,
+                userData.email.toString()
+            )
+            PreferenceManager.setStringValue(
+                Constants.USER_PHOTO,
+                userData.photo?:""
+            )
+            PreferenceManager.setIntValue(
+                Constants.USER_LIMIT,
+                userData.credits!!
+            )
+            PreferenceManager.setStringValue(
+                Constants.USER_TYPE,
+                userData.userType!!
+            )
+            PreferenceManager.setStringValue(
+                Constants.USER_GENDER,
+                userData.gender?:""
+            )
+            PreferenceManager.setIntValue(
+                Constants.SELF_UPLOAD,
+                userData.selfUpload!!.toInt()
+            )
+            PreferenceManager.setIntValue(
+                Constants.PARTY_UPLOAD,
+                userData.partyUpload!!.toInt()
+            )
+            if(userData.userType.equals("HOST", true)){
+                PreferenceManager.setBoolValue(
+                    Constants.IS_HOST_DRIVER,
+                    true
+                )
+            }
+            PreferenceManager.setStringValue(
+                Constants.USER_NUMBER,
+                userData.phone
+            )
+        }catch (e: Exception){
             e.printStackTrace()
         }
     }
@@ -700,20 +713,22 @@ class HomeFragment : Fragment() {
         newRow.gravity = Gravity.CENTER_VERTICAL
         newRow.elevation = 3f
         newRow.background = ContextCompat.getDrawable(requireActivity(),R.drawable.table_row_bg)
-
+        newRow.setPadding(0,5,0,5)
 //        newRow.showDividers = TableRow.SHOW_DIVIDER_MIDDLE
 //        newRow.dividerDrawable = ColorDrawable(Color.BLACK)
         newRow.tag = index
 //        if(!rowSemaphore)
 //            newRow.background = ColorDrawable(Color.parseColor("#FFEEEEEE"))
 //        rowSemaphore = !rowSemaphore
+//        val customTypeface = resources.getFont(R.font.poppins_light)
+        val customTypeface = ResourcesCompat.getFont(requireActivity(), R.font.poppins_medium)
 
         val dateTimeTextView = TextView(activity)
         dateTimeTextView.layoutParams =
             TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.1f)
         dateTimeTextView.text = dateTime.substring(0, 11)
-        dateTimeTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-        dateTimeTextView.typeface = Typeface.SANS_SERIF
+        dateTimeTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11f)
+        dateTimeTextView.typeface = customTypeface
         dateTimeTextView.gravity = Gravity.CENTER
         if (element.sourceID == element.owner) {
             dateTimeTextView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.down, 0, 0, 0)
@@ -727,8 +742,8 @@ class HomeFragment : Fragment() {
         labelTextView.layoutParams =
             TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.1f)
         labelTextView.text = label
-        labelTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-        labelTextView.typeface = Typeface.SANS_SERIF
+        labelTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        labelTextView.typeface = customTypeface
         labelTextView.gravity = Gravity.CENTER
         labelTextView.setPadding(8, 8, 8, 8)
         labelTextView.maxLines = 2 // Limit to 2 lines
@@ -739,7 +754,7 @@ class HomeFragment : Fragment() {
             TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.1f)
         docsTextView.text = documentName
         docsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
-        docsTextView.typeface = Typeface.create("poppins_light", Typeface.NORMAL)
+        docsTextView.typeface = customTypeface
         docsTextView.gravity = Gravity.CENTER
         docsTextView.setPadding(8, 8, 8, 8)
         docsTextView.maxLines = 2 // Limit to 2 lines

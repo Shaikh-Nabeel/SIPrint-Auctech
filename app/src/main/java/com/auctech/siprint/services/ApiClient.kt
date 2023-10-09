@@ -10,6 +10,7 @@ import com.auctech.siprint.initials.response.ResponseOtpVerification
 import com.auctech.siprint.initials.response.ResponseSignup
 import com.auctech.siprint.profile.response.ReponseUpdateDetail
 import com.auctech.siprint.wallet.response.ResponseTransaction
+import com.auctech.siprint.wallet.response.ResponseUsage
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -143,6 +144,14 @@ interface ApiClient {
     @POST("getTransactions")
     fun getTransactions(@Body body: JsonObject): Call<ResponseTransaction>
 
+    @POST("getCreditByDate")
+    fun getLimitUsage(@Body body: JsonObject): Call<ResponseUsage>
+
+    @POST("updatePhone")
+    fun updatePhone(@Body body: JsonObject): Call<ResponseSignup>
+
+    @POST("mailsend")
+    fun contactUs(@Body body: JsonObject): Call<ResponseSignup>
 
 }
 

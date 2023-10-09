@@ -40,6 +40,9 @@ class ProfileUpdateActivity : AppCompatActivity() {
 
         binding.yourNameET.setText(PreferenceManager.getStringValue(Constants.USER_NAME))
         binding.mobileNo.text = PreferenceManager.getStringValue(Constants.USER_NUMBER)
+        binding.mobileNo.setOnClickListener {
+            startActivity(Intent(this, ChangeMobileActivity::class.java))
+        }
         val photoUrl = PreferenceManager.getStringValue(Constants.USER_PHOTO)
         if(photoUrl.isNullOrEmpty()){
             if(PreferenceManager.getStringValue(Constants.USER_GENDER).equals("Male", true)){
@@ -320,5 +323,10 @@ class ProfileUpdateActivity : AppCompatActivity() {
             message,
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.mobileNo.text = PreferenceManager.getStringValue(Constants.USER_NUMBER)
     }
 }
