@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "https://nabs7.000webhostapp.com/api/"
+    private const val BASE_URL = "https://si-sms.net/api/"
 
     val instance: Retrofit by lazy {
         val loggingInterceptor = HttpLoggingInterceptor()

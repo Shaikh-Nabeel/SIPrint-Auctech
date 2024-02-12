@@ -11,5 +11,10 @@ class MySiPrintApplication: Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         PreferenceManager.init(this)
         FirebaseApp.initializeApp(this)
+
+//        val firebaseAppCheck = FirebaseAppCheck.getInstance()
+//        firebaseAppCheck.installAppCheckProviderFactory(
+//            DebugAppCheckProviderFactory.getInstance()
+//        )
     }
 }

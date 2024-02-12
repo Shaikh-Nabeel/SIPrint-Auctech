@@ -949,4 +949,12 @@ class HomeFragment : Fragment() {
         }
     }
 
+    // SENT DOC PART
+
+    private fun getSentDoc(){
+        /*
+
+        */
+    }
+
 }

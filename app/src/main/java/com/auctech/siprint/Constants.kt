@@ -33,9 +33,9 @@ class Constants {
 
         //urls
 //        const val CONTACT_URL = "https://test.aucaya.com/SI-Print/contact.html"
-        const val ABOUT_URL = "https://test.aucaya.com/SI-Print/about.html"
-        const val PRIVACY_URL = "https://test.aucaya.com/si-print/Privacy_Policy__.html"
-        const val TERMS_URL = "https://test.aucaya.com/si-print/Terms_Condition__.html"
+        const val ABOUT_URL = "https://si-sms.net/about__.html"
+        const val PRIVACY_URL = "https://si-sms.net/Privacy_Policy__.html"
+        const val TERMS_URL = "https://si-sms.net/Terms_Condition__.html"
 
 
         //mail
