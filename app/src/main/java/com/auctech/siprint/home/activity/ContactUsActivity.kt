@@ -123,7 +123,7 @@ class ContactUsActivity : AppCompatActivity() {
         val name = binding.yourNameET.text.toString().trim()
         val email = binding.email.text.toString().trim()
         val phone = binding.phone.text.toString().trim()
-        val website = binding.website.text.toString().trim()
+//        val website = binding.website.text.toString().trim()
         val message = binding.message.text.toString().trim()
 
         val formattedString = StringBuilder()
@@ -140,9 +140,9 @@ class ContactUsActivity : AppCompatActivity() {
             formattedString.append("Phone: $phone\n")
         }
 
-        if (website.isNotEmpty()) {
-            formattedString.append("Website: $website\n")
-        }
+//        if (website.isNotEmpty()) {
+//            formattedString.append("Website: $website\n")
+//        }
 
         if (message.isNotEmpty()) {
             formattedString.append("Message: $message\n")

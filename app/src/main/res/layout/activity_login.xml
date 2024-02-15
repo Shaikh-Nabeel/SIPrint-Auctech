@@ -58,7 +58,7 @@
         android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="15dp"
+        android:paddingStart="5dp"
         android:paddingEnd="10dp"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
@@ -69,11 +69,13 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="+91"
+            android:text="+966"
+            android:gravity="center"
+            android:id="@+id/selectedCountryCode"
             android:textColor="@color/blue"
             android:textSize="17sp" />
 
@@ -81,7 +83,7 @@
             android:id="@+id/number_et"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="9"
+            android:layout_weight="8"
             android:background="@null"
             android:fontFamily="@font/poppins_medium"
             android:hint="Mobile number"
