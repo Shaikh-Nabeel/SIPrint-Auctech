@@ -1,8 +1,11 @@
 package com.auctech.siprint.initials.activity
 
 import android.Manifest
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -11,19 +14,31 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.LinearLayout
+import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.auctech.siprint.Constants
 import com.auctech.siprint.PreferenceManager
+import com.auctech.siprint.R
 import com.auctech.siprint.databinding.ActivityLoginBinding
 import com.auctech.siprint.home.activity.MainActivity
+import com.auctech.siprint.initials.FetchCountryDataTask
+import com.auctech.siprint.initials.IClickListener
+import com.auctech.siprint.initials.adapters.CountryCodeLV
 import com.auctech.siprint.initials.response.ResponseLogin
 import com.auctech.siprint.initials.response.ResponseOtpVerification
 import com.auctech.siprint.services.ApiClient
 import com.auctech.siprint.services.RetrofitClient
+import com.google.android.gms.common.util.JsonUtils
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.AuthResult
@@ -33,6 +48,9 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityLoginBinding
     private var phoneNumber: String = ""
+    private var countryCode: String = "+996"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
                 if (s?.length == 10) {
                     phoneNumber = s.toString()
 //                    loginUser()
-                    sendPhoneNumber("+91$phoneNumber")
+                    sendPhoneNumber("$countryCode$phoneNumber")
                 }
             }
 
@@ -86,7 +105,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 binding.login.isEnabled = false
                 val credential = PhoneAuthProvider.getCredential(mVerificationId?:"", otp)
-                binding.loading.visibility = View.VISIBLE
+                showProgressBar()
                 signInWithPhoneAuthCredential(credential)
 //                makeOtpVerificationCall(otp)
             } else {
@@ -105,12 +124,63 @@ class LoginActivity : AppCompatActivity() {
             requestStoragePermission()
         }
 
+        binding.selectedCountryCode.setOnClickListener{
+            openSelectCountryCodeDialog()
+        }
+
     }
 
-    private fun makeOtpVerificationCall(otp: String) {
+    private fun openSelectCountryCodeDialog() {
+        val uploadDialog = Dialog(this)
+        uploadDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        uploadDialog.setContentView(
+            LayoutInflater.from(this)
+                .inflate(R.layout.dialog_select_country, null, false)
+        )
+        uploadDialog.window!!.setGravity(Gravity.CENTER)
+        uploadDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+        val height = (resources.displayMetrics.heightPixels * 0.85).toInt()
+        uploadDialog.window!!.setLayout(width, height)
+
+        val listView = uploadDialog.findViewById<ListView>(R.id.countryCode)
+
+        val countrySelectListener = object: IClickListener{
+            override fun onCountrySelected(code: String, name: String) {
+                uploadDialog.dismiss()
+                countryCode = code
+                binding.selectedCountryCode.text = countryCode
+                Toast.makeText(this@LoginActivity,"$name selected", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        val fetchCountryDataTask = FetchCountryDataTask(object:
+            FetchCountryDataTask.OnDataFetchedListener {
+            override fun onDataFetched(jsonData: String?) {
+                hideProgressBar()
+                val countryCodeAdapter = CountryCodeLV(this@LoginActivity,countrySelectListener, JSONArray(jsonData))
+                listView.adapter = countryCodeAdapter
+            }
+
+            override fun onError(errorMessage: String) {
+                hideProgressBar()
+                Toast.makeText(this@LoginActivity, "Failed to load data.", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        fetchCountryDataTask.execute()
+        showProgressBar()
+
+
+        uploadDialog.show()
+
+    }
+
+
+ /*   private fun makeOtpVerificationCall(otp: String) {
         val apiService: ApiClient = RetrofitClient.instance.create(ApiClient::class.java)
 
-        val call: Call<ResponseOtpVerification> = apiService.otpVerification(otp, "91$phoneNumber")
+        val call: Call<ResponseOtpVerification> = apiService.otpVerification(otp, "$countryCode$phoneNumber")
         binding.loading.visibility = View.VISIBLE
         call.enqueue(object : Callback<ResponseOtpVerification> {
             override fun onResponse(
@@ -229,12 +299,12 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-    }
+    }*/
 
     private fun userLogin2() {
         try{
             val apiService: ApiClient = RetrofitClient.instance.create(ApiClient::class.java)
-            val call: Call<ResponseOtpVerification> = apiService.userLogin2("91$phoneNumber")
+            val call: Call<ResponseOtpVerification> = apiService.userLogin2("${countryCode.substring(1,countryCode.length)}$phoneNumber")
             binding.loading.visibility = View.VISIBLE
             call.enqueue(object : Callback<ResponseOtpVerification> {
                 override fun onResponse(call: Call<ResponseOtpVerification>, response: Response<ResponseOtpVerification>) {
@@ -253,7 +323,7 @@ class LoginActivity : AppCompatActivity() {
                             } else if (statusOfUser.equals(Constants.NEW_REGISTRATION)) {
                                 PreferenceManager.setStringValue(
                                     Constants.USER_NUMBER,
-                                    "91$phoneNumber"
+                                    "${countryCode.substring(1,countryCode.length)}$phoneNumber"
                                 )
                                 PreferenceManager.setStringValue(
                                     Constants.USER_ID,
@@ -269,7 +339,7 @@ class LoginActivity : AppCompatActivity() {
                             } else if (statusOfUser.equals(Constants.VALID)) {
                                 PreferenceManager.setStringValue(
                                     Constants.USER_NUMBER,
-                                    "91$phoneNumber"
+                                    "${countryCode.substring(1,countryCode.length)}$phoneNumber"
                                 )
                                 PreferenceManager.setStringValue(
                                     Constants.USER_ID,
@@ -324,7 +394,7 @@ class LoginActivity : AppCompatActivity() {
     private var mVerificationId: String? = null
     private var resendingToken: String? = null
     private fun sendPhoneNumber(phoneNumber: String) {
-        binding.loading.visibility = View.VISIBLE
+        showProgressBar()
         if (phoneNumber.isNotEmpty()) {
             val options = PhoneAuthOptions
                 .newBuilder().setTimeout(60L, TimeUnit.SECONDS)
@@ -341,13 +411,13 @@ class LoginActivity : AppCompatActivity() {
                             "Verification failed: " + e.message,
                             Toast.LENGTH_SHORT
                         ).show()
-                        binding.loading.visibility = View.GONE
+                        hideProgressBar()
                     }
 
                     override fun onCodeSent(s: String, forceResendingToken: ForceResendingToken) {
                         mVerificationId = s
                         resendingToken = forceResendingToken.toString()
-                        binding.loading.visibility = View.GONE
+                        hideProgressBar()
                         Toast.makeText(
                             this@LoginActivity,
                             "OTP sent",
@@ -379,12 +449,12 @@ class LoginActivity : AppCompatActivity() {
 //                        "Sign in successful",
 //                        Toast.LENGTH_SHORT
 //                    ).show()
-                    binding.loading.setVisibility(View.GONE)
+                    hideProgressBar()
                     userLogin2()
                     // startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                 } else {
                     // Sign in failed.
-                    binding.loading.setVisibility(View.GONE)
+                    hideProgressBar()
                     Toast.makeText(
                         this@LoginActivity,
                         "Sign in failed",
@@ -450,7 +520,7 @@ class LoginActivity : AppCompatActivity() {
     private fun requestStoragePermission() {
         if (ContextCompat.checkSelfPermission(
                 this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(
                 this,
@@ -463,7 +533,7 @@ class LoginActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ),
                 STORAGE_PERMISSION_REQUEST_CODE
@@ -502,7 +572,7 @@ class LoginActivity : AppCompatActivity() {
                     // Permission is denied, check if the user checked the "Don't ask again" option
                     if (ActivityCompat.shouldShowRequestPermissionRationale(
                             this,
-                            android.Manifest.permission.READ_EXTERNAL_STORAGE
+                            Manifest.permission.READ_EXTERNAL_STORAGE
                         ) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(
                             this,
@@ -569,6 +639,27 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                 }
             }
+        }
+    }
+
+    private fun showProgressBar() {
+        try {
+            binding.loading.visibility = View.VISIBLE
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun hideProgressBar() {
+        try {
+            binding.loading.visibility = View.GONE
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
         }
     }
 

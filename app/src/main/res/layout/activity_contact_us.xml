@@ -151,7 +151,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:fontFamily="@font/poppins_medium"
             android:hint="Your website (optional)"
             android:id="@+id/website"

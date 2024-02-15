@@ -159,10 +159,10 @@ class SignUpActivity : AppCompatActivity() {
             return false
         }
 
-//        if (email.isNullOrEmpty()) {
-//            showToast("Email is mandatory")
-//            return false
-//        }
+        if (binding.email.text.toString().isEmpty()) {
+            showToast("Email is mandatory")
+            return false
+        }
 
         if(gender.isNullOrEmpty() || gender.contentEquals("Gender")){
             showToast("Please select your gender")

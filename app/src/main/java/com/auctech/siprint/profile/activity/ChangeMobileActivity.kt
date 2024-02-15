@@ -1,21 +1,31 @@
 package com.auctech.siprint.profile.activity
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
+import android.widget.ListView
 import android.widget.Toast
 import com.auctech.siprint.Constants
 import com.auctech.siprint.PreferenceManager
 import com.auctech.siprint.R
 import com.auctech.siprint.databinding.ActivityChangeMobileBinding
 import com.auctech.siprint.home.activity.MainActivity
+import com.auctech.siprint.initials.FetchCountryDataTask
+import com.auctech.siprint.initials.IClickListener
 import com.auctech.siprint.initials.activity.SignUpActivity
+import com.auctech.siprint.initials.adapters.CountryCodeLV
 import com.auctech.siprint.initials.response.ResponseOtpVerification
 import com.auctech.siprint.initials.response.ResponseSignup
 import com.auctech.siprint.services.ApiClient
@@ -28,6 +38,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.gson.JsonObject
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +49,7 @@ class ChangeMobileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChangeMobileBinding
     private var phoneNumber: String = ""
+    private var countryCode = "+996"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +67,7 @@ class ChangeMobileActivity : AppCompatActivity() {
                 if (s?.length == 10) {
 
                     phoneNumber = s.toString()
-                    if("91$phoneNumber" == PreferenceManager.getStringValue(Constants.USER_NUMBER)){
+                    if("${countryCode.substring(1,countryCode.length)}$phoneNumber" == PreferenceManager.getStringValue(Constants.USER_NUMBER)){
                         Toast.makeText(
                             this@ChangeMobileActivity,
                             "Enter different mobile number",
@@ -64,7 +76,7 @@ class ChangeMobileActivity : AppCompatActivity() {
                         return
                     }
 //                    loginUser()
-                    sendPhoneNumber("+91$phoneNumber")
+                    sendPhoneNumber("$countryCode$phoneNumber")
                 }
             }
 
@@ -103,6 +115,56 @@ class ChangeMobileActivity : AppCompatActivity() {
                 ).show()
             }
         }
+
+        binding.selectedCountryCode.setOnClickListener{
+            openSelectCountryCodeDialog()
+        }
+    }
+
+    private fun openSelectCountryCodeDialog() {
+        val uploadDialog = Dialog(this)
+        uploadDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        uploadDialog.setContentView(
+            LayoutInflater.from(this)
+                .inflate(R.layout.dialog_select_country, null, false)
+        )
+        uploadDialog.window!!.setGravity(Gravity.CENTER)
+        uploadDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+        val height = (resources.displayMetrics.heightPixels * 0.85).toInt()
+        uploadDialog.window!!.setLayout(width, height)
+
+        val listView = uploadDialog.findViewById<ListView>(R.id.countryCode)
+
+        val countrySelectListener = object: IClickListener {
+            override fun onCountrySelected(code: String, name: String) {
+                uploadDialog.dismiss()
+                countryCode = code
+                binding.selectedCountryCode.text = countryCode
+                Toast.makeText(this@ChangeMobileActivity,"$name selected", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        val fetchCountryDataTask = FetchCountryDataTask(object:
+            FetchCountryDataTask.OnDataFetchedListener {
+            override fun onDataFetched(jsonData: String?) {
+                hideProgressBar()
+                val countryCodeAdapter = CountryCodeLV(this@ChangeMobileActivity,countrySelectListener, JSONArray(jsonData))
+                listView.adapter = countryCodeAdapter
+            }
+
+            override fun onError(errorMessage: String) {
+                hideProgressBar()
+                Toast.makeText(this@ChangeMobileActivity, "Failed to load data.", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        fetchCountryDataTask.execute()
+        showProgressBar()
+
+
+        uploadDialog.show()
+
     }
 
     private fun userLogin2() {
@@ -111,7 +173,7 @@ class ChangeMobileActivity : AppCompatActivity() {
             val apiService: ApiClient = RetrofitClient.instance.create(ApiClient::class.java)
             val jsonObject = JsonObject()
             jsonObject.addProperty("user_id", PreferenceManager.getStringValue(Constants.USER_ID))
-            jsonObject.addProperty("phone", "91$phoneNumber")
+            jsonObject.addProperty("phone", "${countryCode.substring(1,countryCode.length)}$phoneNumber")
             apiService.updatePhone(jsonObject).enqueue(object : Callback<ResponseSignup> {
                 override fun onResponse(
                     call: Call<ResponseSignup>,
@@ -120,7 +182,7 @@ class ChangeMobileActivity : AppCompatActivity() {
                     if (response.code() == 200 && response.body() != null) {
                         val responseSearch = response.body()
                         if (responseSearch?.status == 200) {
-                            PreferenceManager.setStringValue(Constants.USER_NUMBER, "91$phoneNumber")
+                            PreferenceManager.setStringValue(Constants.USER_NUMBER, "${countryCode.substring(1,countryCode.length)}$phoneNumber")
                             Toast.makeText(
                                 this@ChangeMobileActivity,
                                 "Phone updated successfully.",

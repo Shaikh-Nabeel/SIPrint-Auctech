@@ -1,5 +1,10 @@
 package com.auctech.siprint
 
+import android.content.Context
+import org.json.JSONArray
+import java.io.BufferedReader
+import java.io.InputStreamReader
+
 class Constants {
 
     companion object{
@@ -41,6 +46,9 @@ class Constants {
         //mail
         const val COMPANY_MAIL = "sleeban162@gmail.com"
 
+        //country code json
+
+        const val COUNTRY_CODE_JSON = ""
 
     }
 }
