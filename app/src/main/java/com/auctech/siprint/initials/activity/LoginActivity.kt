@@ -2,6 +2,7 @@ package com.auctech.siprint.initials.activity
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -10,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -19,9 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.LinearLayout
 import android.widget.ListView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -34,11 +34,9 @@ import com.auctech.siprint.home.activity.MainActivity
 import com.auctech.siprint.initials.FetchCountryDataTask
 import com.auctech.siprint.initials.IClickListener
 import com.auctech.siprint.initials.adapters.CountryCodeLV
-import com.auctech.siprint.initials.response.ResponseLogin
 import com.auctech.siprint.initials.response.ResponseOtpVerification
 import com.auctech.siprint.services.ApiClient
 import com.auctech.siprint.services.RetrofitClient
-import com.google.android.gms.common.util.JsonUtils
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.AuthResult
@@ -48,13 +46,12 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class LoginActivity : AppCompatActivity() {
@@ -62,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     private var phoneNumber: String = ""
     private var countryCode: String = "+996"
+    private var jsonArrayOfCountries: JSONArray? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,7 +130,69 @@ class LoginActivity : AppCompatActivity() {
             openSelectCountryCodeDialog()
         }
 
+        val country = getUserCountry()
+        val fetchCountryDataTask = FetchCountryDataTask(object:
+            FetchCountryDataTask.OnDataFetchedListener {
+            override fun onDataFetched(jsonData: String?) {
+                jsonArrayOfCountries = JSONArray(jsonData)
+                country?.apply {
+                    getCountryCode(jsonArrayOfCountries!!, country).apply {
+                        if(this != null){
+                            countryCode = this
+                            binding.selectedCountryCode.text = this
+                        }
+                    }
+                }
+            }
+
+            override fun onError(errorMessage: String) {
+//                Toast.makeText(this@LoginActivity, "Failed to load data.", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        fetchCountryDataTask.execute()
+
     }
+
+    // A function that takes a JSONArray of JSONObjects and a country name as parameters
+// and returns the country code for that country if it exists in the array, or null otherwise
+    fun getCountryCode(jsonArray: JSONArray, countryName: String): String? {
+        // Iterate through the JSONObjects in the array
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            // Check if the country name matches the one in the parameter
+            if (jsonObject.getString("name").equals(countryName,true)) {
+                // Return the country code
+                return jsonObject.getString("dial_code")
+            }
+        }
+        // Return null if no match is found
+        return null
+    }
+
+
+    private fun getUserCountry(): String? {
+        // Get an instance of the TelephonyManager
+        val telephonyManager = this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        // Try to get the country code from the SIM card or the network operator
+        val countryCode = try {
+            telephonyManager.simCountryIso ?: telephonyManager.networkCountryIso
+        } catch (e: Exception) {
+            // Handle any exception that may occur
+            e.printStackTrace()
+            null
+        }
+        // Check if the country code is valid
+        if (countryCode != null && countryCode.length == 2) {
+            // Convert the country code to upper case
+            val upperCountryCode = countryCode.uppercase(Locale.US)
+            // Get the country name from the Locale class
+            // Return the country name
+            return Locale(Locale.ENGLISH.language, upperCountryCode).displayCountry
+        }
+        return null
+    }
+
 
     private fun openSelectCountryCodeDialog() {
         val uploadDialog = Dialog(this)
@@ -158,23 +218,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        val fetchCountryDataTask = FetchCountryDataTask(object:
-            FetchCountryDataTask.OnDataFetchedListener {
-            override fun onDataFetched(jsonData: String?) {
-                hideProgressBar()
-                val countryCodeAdapter = CountryCodeLV(this@LoginActivity,countrySelectListener, JSONArray(jsonData))
-                listView.adapter = countryCodeAdapter
-            }
-
-            override fun onError(errorMessage: String) {
-                hideProgressBar()
-                Toast.makeText(this@LoginActivity, "Failed to load data.", Toast.LENGTH_SHORT).show()
-            }
-        })
-
-        fetchCountryDataTask.execute()
-        showProgressBar()
-
+        val countryCodeAdapter = CountryCodeLV(this@LoginActivity,countrySelectListener, jsonArrayOfCountries!!)
+        listView.adapter = countryCodeAdapter
 
         uploadDialog.show()
 

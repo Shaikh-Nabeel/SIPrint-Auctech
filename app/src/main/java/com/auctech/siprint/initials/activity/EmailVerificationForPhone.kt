@@ -76,38 +76,24 @@ class EmailVerificationForPhone : AppCompatActivity() {
         }
 
         setupOtpEditTexts()
+        showKeyboard()
 
-        if (Build.VERSION.SDK_INT >= 33) {
-            onBackInvokedDispatcher.registerOnBackInvokedCallback(
-                OnBackInvokedDispatcher.PRIORITY_DEFAULT
-            ) {
-                if(binding.emailLl.visibility == View.GONE) {
-                    binding.emailLl.visibility = View.VISIBLE
-                    binding.numberTv.visibility = View.GONE
-                    binding.sendOtp.text = "Get OTP"
-                    binding.otpTv.visibility = View.GONE
-                    binding.otpLl.visibility = View.GONE
-                }else{
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Your code here to decide whether to allow back navigation or not
+                // For example, you can show a dialog or check a condition
+                if (binding.emailLl.visibility == View.VISIBLE) {
                     finish()
+                } else {
+                    binding.emailLl.visibility = View.VISIBLE
+                    binding.numberTv.visibility = View.VISIBLE
+                    binding.otpLl.visibility = View.GONE
+                    binding.otpTv.visibility = View.GONE
+                    binding.sendOtp.text = "Get OTP"
                 }
             }
-        } else {
-            onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
-                override fun handleOnBackPressed() {
-                    if(binding.emailLl.visibility == View.GONE) {
-                        binding.emailLl.visibility = View.VISIBLE
-                        binding.numberTv.visibility = View.GONE
-                        binding.sendOtp.text = "Get OTP"
-                        binding.otpTv.visibility = View.GONE
-                        binding.otpLl.visibility = View.GONE
-                    }else{
-                        finish()
-                    }
-                }
+        })
 
-            })
-        }
-        showKeyboard()
     }
 
     private fun showKeyboard() {
@@ -281,5 +267,17 @@ class EmailVerificationForPhone : AppCompatActivity() {
             })
         }
     }
+
+//    override fun onBackPressed() {
+//        if(binding.emailLl.visibility == View.GONE){
+//            binding.emailLl.visibility = View.VISIBLE
+//            binding.numberTv.visibility = View.VISIBLE
+//            binding.otpLl.visibility = View.GONE
+//            binding.otpTv.visibility = View.GONE
+//            binding.sendOtp.text = "Get OTP"
+//        }else{
+//            super.onBackPressed()
+//        }
+//    }
 
 }
