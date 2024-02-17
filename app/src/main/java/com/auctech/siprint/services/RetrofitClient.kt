@@ -4,6 +4,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     private const val BASE_URL = "https://si-sms.net/api/"
@@ -18,11 +19,12 @@ object RetrofitClient {
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(loggingInterceptor2)
-            .build()
+        client.connectTimeout(10, TimeUnit.SECONDS); // Set connection timeout
+        client.readTimeout(10, TimeUnit.SECONDS);
 
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(client)
+            .client(client.build())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

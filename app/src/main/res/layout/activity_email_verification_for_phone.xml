@@ -2,55 +2,39 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
-    >
+    android:padding="15dp"
+    tools:context=".initials.activity.EmailVerificationForPhone">
+
+
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:src="@mipmap/siprint_logo"
-        android:layout_marginTop="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/logo"
-        android:contentDescription="@string/filter"
+        android:contentDescription="@string/app_name"
         />
-
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/login_img"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/login_img"
-        android:contentDescription="@string/filter"
-        />
-
 
     <TextView
         android:id="@+id/number_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/get_organised"
+        android:text="@string/enter_your_registered_email"
         android:textColor="@color/blue"
         android:textSize="18sp"
         android:selectAllOnFocus="true"
         android:fontFamily="@font/poppins_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_img"/>
+        app:layout_constraintTop_toBottomOf="@id/logo"/>
 
     <LinearLayout
-        android:id="@+id/sign_up_ll"
+        android:id="@+id/email_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -58,7 +42,7 @@
         android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="5dp"
+        android:paddingStart="15dp"
         android:paddingEnd="10dp"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
@@ -67,31 +51,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="+966"
-            android:gravity="center"
-            android:id="@+id/selectedCountryCode"
-            android:textColor="@color/blue"
-            android:textSize="17sp" />
-
         <EditText
-            android:id="@+id/number_et"
+            android:id="@+id/email_id"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
             android:background="@null"
             android:fontFamily="@font/poppins_medium"
-            android:hint="Mobile number"
+            android:hint="Your Email"
             android:gravity="center_vertical"
-            android:maxLength="10"
+            android:maxLength="60"
             android:textColor="@color/grey_1"
             android:textSize="16sp"
-            android:inputType="number"
+            android:focusable="true"
+            android:focusedByDefault="true"
+            android:inputType="textEmailAddress"
             android:selectAllOnFocus="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -100,19 +74,7 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/lostPhone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Lost Number?"
-        android:textColor="@color/purple_700"
-        android:textSize="14sp"
-        android:gravity="end"
-        android:fontFamily="@font/poppins_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_ll"  />
+
 
     <TextView
         android:id="@+id/otp_tv"
@@ -120,14 +82,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:text="OTP"
+        android:visibility="gone"
         android:textColor="@color/grey_1"
-        android:textSize="16sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:gravity="center"
         android:selectAllOnFocus="true"
-        android:fontFamily="@font/poppins_medium"
+        android:fontFamily="@font/poppins_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_ll"  />
+        app:layout_constraintTop_toBottomOf="@+id/email_ll"  />
 
     <LinearLayout
         android:id="@+id/otp_ll"
@@ -138,11 +102,12 @@
         android:gravity="center"
         android:layout_margin="10dp"
         android:weightSum="6"
+        android:visibility="gone"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/otp_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/login">
+        app:layout_constraintBottom_toTopOf="@+id/sendOtp">
         <EditText
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -235,7 +200,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/login"
+        android:id="@+id/sendOtp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -248,7 +213,7 @@
         android:textSize="16sp"
         android:fontFamily="@font/poppins_medium"
         android:background="@drawable/button_filled_8dp"
-        android:text="Login / Signup"
+        android:text="Get OTP"
         app:layout_constraintTop_toBottomOf="@+id/otp_ll"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -262,11 +227,11 @@
         android:layout_marginTop="64dp"
         android:layout_marginBottom="64dp"
         android:visibility="gone"
+        android:elevation="10dp"
         android:indeterminateTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

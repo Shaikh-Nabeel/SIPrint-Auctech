@@ -23,4 +23,5 @@
     <string name="available_credit">Available Credit :</string>
     <string name="add_credit">ADD CREDIT</string>
     <string name="enter_new_mobile_number">Enter new mobile number</string>
+    <string name="enter_your_registered_email">Enter Your Registered Email</string>
 </resources>

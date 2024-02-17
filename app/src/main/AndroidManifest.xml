@@ -19,12 +19,15 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/app_logo"
         android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
         android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/app_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.SIPrint"
         tools:targetApi="31">
+        <activity
+            android:name=".initials.activity.EmailVerificationForPhone"
+            android:exported="false" />
         <activity
             android:name=".home.activity.ContactUsActivity"
             android:exported="false" />

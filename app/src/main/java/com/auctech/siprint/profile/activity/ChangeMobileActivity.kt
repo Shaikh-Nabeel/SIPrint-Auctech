@@ -1,5 +1,6 @@
 package com.auctech.siprint.profile.activity
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -50,13 +51,23 @@ class ChangeMobileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangeMobileBinding
     private var phoneNumber: String = ""
     private var countryCode = "+996"
+    private var fromEmailScreen = false
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChangeMobileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val mobNo = PreferenceManager.getStringValue(Constants.USER_NUMBER)
-        binding.numberEt.setText(mobNo?.substring(2, mobNo.length))
+
+        if (intent != null && intent.hasExtra("from")) {
+            fromEmailScreen = true
+        }
+        if(!fromEmailScreen){
+            val mobNo = PreferenceManager.getStringValue(Constants.USER_NUMBER)
+            binding.numberEt.setText(mobNo?.substring(2, mobNo.length))
+            binding.selectedCountryCode.text = "+${mobNo?.substring(0,2)}"
+            countryCode = "+${mobNo?.substring(0,2)}"
+        }
 
         binding.numberEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -65,7 +76,6 @@ class ChangeMobileActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.length == 10) {
-
                     phoneNumber = s.toString()
                     if("${countryCode.substring(1,countryCode.length)}$phoneNumber" == PreferenceManager.getStringValue(Constants.USER_NUMBER)){
                         Toast.makeText(
@@ -162,7 +172,6 @@ class ChangeMobileActivity : AppCompatActivity() {
         fetchCountryDataTask.execute()
         showProgressBar()
 
-
         uploadDialog.show()
 
     }
@@ -183,12 +192,25 @@ class ChangeMobileActivity : AppCompatActivity() {
                         val responseSearch = response.body()
                         if (responseSearch?.status == 200) {
                             PreferenceManager.setStringValue(Constants.USER_NUMBER, "${countryCode.substring(1,countryCode.length)}$phoneNumber")
+                            PreferenceManager.setBoolValue(
+                                Constants.IS_LOGIN,
+                                true
+                            )
+                            PreferenceManager.setBoolValue(
+                                Constants.IS_SIGNUP,
+                                true
+                            )
                             Toast.makeText(
                                 this@ChangeMobileActivity,
                                 "Phone updated successfully.",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            finish()
+                            if(fromEmailScreen){
+                                startActivity(Intent(this@ChangeMobileActivity, MainActivity::class.java))
+                                finish()
+                            }else{
+                                finish()
+                            }
                         } else {
                             Toast.makeText(
                                 this@ChangeMobileActivity,

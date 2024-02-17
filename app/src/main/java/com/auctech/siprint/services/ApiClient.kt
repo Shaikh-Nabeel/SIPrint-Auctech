@@ -6,6 +6,7 @@ import com.auctech.siprint.home.response.ResponseNotification
 import com.auctech.siprint.home.response.ResponseSearch
 import com.auctech.siprint.home.response.ResponseSearchUser
 import com.auctech.siprint.home.response.ResponseSentDoc
+import com.auctech.siprint.initials.response.ResponseEmailOtpVerification
 import com.auctech.siprint.initials.response.ResponseLogin
 import com.auctech.siprint.initials.response.ResponseOtpVerification
 import com.auctech.siprint.initials.response.ResponseSignup
@@ -157,6 +158,11 @@ interface ApiClient {
     @POST("getSentDocs")
     fun getSentDoc(@Body body: JsonObject): Call<ResponseSentDoc>
 
+    @POST("sendOtpForMobileChange")
+    fun emailOtpForMobileChange(@Body body: JsonObject): Call<ResponseSignup>
+
+    @POST("verifyOtpForMobileChange")
+    fun verifyOtpForMobileChange(@Body body: JsonObject): Call<ResponseEmailOtpVerification>
 
 }
 
