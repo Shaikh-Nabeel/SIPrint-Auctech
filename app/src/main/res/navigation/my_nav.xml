@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_smsFragment_to_notificationFragment"
+            app:destination="@id/smsFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationFragment"
@@ -27,4 +30,10 @@
         android:name="com.auctech.siprint.home.fragment.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/smsFragment"
+        android:name="com.auctech.siprint.home.fragment.SmsFragment"
+        android:label="fragment_sms"
+        tools:layout="@layout/fragment_sms" />
 </navigation>

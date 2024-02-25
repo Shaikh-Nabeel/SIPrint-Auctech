@@ -120,7 +120,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Request notification permission only for Android level 13 or higher
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestNotificationPermission()
         } else {
             requestStoragePermission()

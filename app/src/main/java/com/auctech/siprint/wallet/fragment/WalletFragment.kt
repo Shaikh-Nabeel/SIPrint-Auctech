@@ -1,5 +1,6 @@
 package com.auctech.siprint.wallet.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import com.auctech.siprint.Constants
 import com.auctech.siprint.PreferenceManager
 import com.auctech.siprint.R
 import com.auctech.siprint.databinding.FragmentWalletBinding
+import com.auctech.siprint.wallet.activity.AddCreditActivity
 
 class WalletFragment : Fragment() {
 
@@ -21,7 +23,9 @@ class WalletFragment : Fragment() {
         binding = FragmentWalletBinding.inflate(inflater,container, false)
 
         binding.limit.text = PreferenceManager.getIntValue(Constants.USER_LIMIT).toString()
-
+        binding.addCredit.setOnClickListener{
+            startActivity(Intent(activity, AddCreditActivity::class.java))
+        }
         return binding.root
     }
 }

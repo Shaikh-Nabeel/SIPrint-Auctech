@@ -7,6 +7,12 @@
         android:title="@string/home" />
 
     <item
+        android:id="@+id/smsFragment"
+        android:icon="@drawable/outline_sms_24"
+        android:title="SMS"
+        />
+
+    <item
         android:id="@+id/notificationFragment"
         android:icon="@mipmap/notification"
         android:title="@string/notification" />

@@ -24,4 +24,6 @@
     <string name="add_credit">ADD CREDIT</string>
     <string name="enter_new_mobile_number">Enter new mobile number</string>
     <string name="enter_your_registered_email">Enter Your Registered Email</string>
+    <string name="sms">SMS</string>
+    <string name="share">Share</string>
 </resources>

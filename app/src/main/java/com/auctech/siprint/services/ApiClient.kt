@@ -6,6 +6,7 @@ import com.auctech.siprint.home.response.ResponseNotification
 import com.auctech.siprint.home.response.ResponseSearch
 import com.auctech.siprint.home.response.ResponseSearchUser
 import com.auctech.siprint.home.response.ResponseSentDoc
+import com.auctech.siprint.home.response.ResponseSms
 import com.auctech.siprint.initials.response.ResponseEmailOtpVerification
 import com.auctech.siprint.initials.response.ResponseLogin
 import com.auctech.siprint.initials.response.ResponseOtpVerification
@@ -163,6 +164,15 @@ interface ApiClient {
 
     @POST("verifyOtpForMobileChange")
     fun verifyOtpForMobileChange(@Body body: JsonObject): Call<ResponseEmailOtpVerification>
+
+    //SMS apis
+    @Headers("Content-Type: application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("getReceivedSms")
+    fun getReceivedSms(
+        @Field("owner_id") userId: String,
+        @Field("offset") offset: Int
+    ): Call<ResponseSms>
 
 }
 
