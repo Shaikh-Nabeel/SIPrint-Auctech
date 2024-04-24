@@ -9,6 +9,7 @@ class Constants {
 
     companion object{
 
+        //preference constants
         const val ERR_MESSAGE = "Couldn't connect to service provider"
         const val USER_NUMBER = "user_number"
         const val USER_NAME = "user_name"
@@ -44,7 +45,7 @@ class Constants {
 
 
         //mail
-        const val COMPANY_MAIL = "sleeban162@gmail.com"
+        const val COMPANY_MAIL = "support@si-sms.net"
 
         //country code json
 

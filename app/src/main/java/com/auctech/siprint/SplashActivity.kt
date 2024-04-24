@@ -2,21 +2,17 @@ package com.auctech.siprint
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
-import android.media.MediaPlayer
-import android.media.MediaPlayer.OnCompletionListener
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.auctech.siprint.databinding.ActivitySplashBinding
 import com.auctech.siprint.home.activity.MainActivity
 import com.auctech.siprint.initials.activity.LoginActivity
 import com.auctech.siprint.initials.activity.SignUpActivity
 import com.bumptech.glide.Glide
-import com.google.firebase.messaging.FirebaseMessaging
+import com.google.android.play.core.integrity.IntegrityManagerFactory
+import com.google.android.play.core.integrity.StandardIntegrityManager
+import com.google.android.play.core.integrity.StandardIntegrityManager.StandardIntegrityTokenProvider
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -80,6 +76,24 @@ class SplashActivity : AppCompatActivity() {
 //        executor.schedule({
 //
 //        }, 1500, TimeUnit.MILLISECONDS)
+
+//        var standardIntegrityManager = IntegrityManagerFactory.createStandard(applicationContext);
+//
+//        var integrityTokenProvider: StandardIntegrityTokenProvider? = null
+//        var cloudProjectNumber = 0L
+//
+//// Prepare integrity token. Can be called once in a while to keep internal
+//// state fresh.
+//        standardIntegrityManager.prepareIntegrityToken(
+//            StandardIntegrityManager.PrepareIntegrityTokenRequest.builder()
+//                .setCloudProjectNumber(cloudProjectNumber)
+//                .build())
+//            .addOnSuccessListener{
+//                integrityTokenProvider = it
+//            }
+//        .addOnFailureListener{
+//            println("Integrity Error: ======================> =============> ${it.message}")
+//        }
 
     }
 }

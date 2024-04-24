@@ -28,14 +28,17 @@ class AddCreditActivity : AppCompatActivity() {
 
         binding.textViewAmount1.setOnClickListener{
             binding.editTextAmount.setText(binding.textViewAmount1.text.toString())
+            binding.editTextAmount.setSelection(binding.editTextAmount.length())
         }
 
         binding.textViewAmount2.setOnClickListener{
             binding.editTextAmount.setText(binding.textViewAmount2.text.toString())
+            binding.editTextAmount.setSelection(binding.editTextAmount.length())
         }
 
         binding.textViewAmount3.setOnClickListener{
             binding.editTextAmount.setText(binding.textViewAmount3.text.toString())
+            binding.editTextAmount.setSelection(binding.editTextAmount.length())
         }
 
     }

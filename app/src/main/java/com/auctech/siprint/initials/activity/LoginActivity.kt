@@ -134,12 +134,14 @@ class LoginActivity : AppCompatActivity() {
         val fetchCountryDataTask = FetchCountryDataTask(object:
             FetchCountryDataTask.OnDataFetchedListener {
             override fun onDataFetched(jsonData: String?) {
-                jsonArrayOfCountries = JSONArray(jsonData)
-                country?.apply {
-                    getCountryCode(jsonArrayOfCountries!!, country).apply {
-                        if(this != null){
-                            countryCode = this
-                            binding.selectedCountryCode.text = this
+                jsonData?.let {
+                    jsonArrayOfCountries = JSONArray(jsonData)
+                    country?.apply {
+                        getCountryCode(jsonArrayOfCountries!!, country).apply {
+                            if(this != null){
+                                countryCode = this
+                                binding.selectedCountryCode.text = this
+                            }
                         }
                     }
                 }
@@ -195,6 +197,10 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun openSelectCountryCodeDialog() {
+        if(jsonArrayOfCountries == null){
+            Toast.makeText(this@LoginActivity,"No internet,restart application after connecting",Toast.LENGTH_LONG).show()
+            return
+        }
         val uploadDialog = Dialog(this)
         uploadDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         uploadDialog.setContentView(

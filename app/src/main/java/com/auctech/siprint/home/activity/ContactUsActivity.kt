@@ -68,19 +68,20 @@ class ContactUsActivity : AppCompatActivity() {
             return
         }
 
-        contactUs(name,email)
+        contactUs(name,email,message,phone)
 
     }
 
-    private fun contactUs(name: String,email: String) {
+    private fun contactUs(name: String,email: String,message: String,phone: String) {
         try {
             showProgressBar()
             val apiService: ApiClient = RetrofitClient.instance.create(ApiClient::class.java)
             val jsonObject = JsonObject()
-            jsonObject.addProperty("mailfrom", email)
-            jsonObject.addProperty("mailto", Constants.COMPANY_MAIL)
-            jsonObject.addProperty("subject", name)
-            jsonObject.addProperty("mailbody", createFormattedString())
+            jsonObject.addProperty("email", email)
+            jsonObject.addProperty("mobile", phone)
+            jsonObject.addProperty("name", name)
+            jsonObject.addProperty("description", message)
+            jsonObject.addProperty("userId", PreferenceManager.getStringValue(Constants.USER_ID))
 
             apiService.contactUs(jsonObject).enqueue(object : Callback<ResponseSignup> {
                 override fun onResponse(

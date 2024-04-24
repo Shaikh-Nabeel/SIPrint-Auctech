@@ -77,11 +77,13 @@ class SmsFragment : Fragment(), Mvp {
 
             // If user has scrolled to the end of the list
             if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
-
+                offset++
+                fetchSms()
             }
         }
     }
 
+    private var isDataAvailable = false
 
     private fun fetchSms() {
         try {
@@ -98,6 +100,15 @@ class SmsFragment : Fragment(), Mvp {
                             val smsResponse = response.body()
                             if (smsResponse?.status == 200) {
                                 val smsList = smsResponse.data
+                                if (smsList != null) {
+                                    if(smsList.isNotEmpty() && !isDataAvailable) {
+                                        isDataAvailable = true
+                                    }
+                                    if(!isDataAvailable){
+                                        binding.noNotification.visibility = View.VISIBLE
+                                        binding.smsRV.visibility = View.GONE
+                                    }
+                                }
                                 setUpSmsRV(smsList)
                             } else {
                                 Toast.makeText(

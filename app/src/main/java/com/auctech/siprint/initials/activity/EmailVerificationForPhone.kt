@@ -178,6 +178,11 @@ class EmailVerificationForPhone : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<ResponseEmailOtpVerification>, t: Throwable) {
+                    Toast.makeText(
+                        this@EmailVerificationForPhone,
+                        t.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                     hideProgressBar()
                     t.printStackTrace()
                 }

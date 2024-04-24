@@ -154,7 +154,7 @@ interface ApiClient {
     fun updatePhone(@Body body: JsonObject): Call<ResponseSignup>
 
     @POST("mailsend")
-    fun contactUs(@Body body: JsonObject): Call<ResponseSignup>
+    fun sendMail(@Body body: JsonObject): Call<ResponseSignup>
 
     @POST("getSentDocs")
     fun getSentDoc(@Body body: JsonObject): Call<ResponseSentDoc>
@@ -173,6 +173,9 @@ interface ApiClient {
         @Field("owner_id") userId: String,
         @Field("offset") offset: Int
     ): Call<ResponseSms>
+
+    @POST("createTicket")
+    fun contactUs(@Body body: JsonObject): Call<ResponseSignup>
 
 }
 

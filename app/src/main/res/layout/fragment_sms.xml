@@ -7,7 +7,7 @@
     tools:context=".home.fragment.SmsFragment">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
@@ -15,9 +15,21 @@
         android:text="@string/sms"
         android:gravity="center"
         android:fontFamily="@font/poppins_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/heading"
         />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@mipmap/search"
+        app:layout_constraintBottom_toBottomOf="@+id/heading"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/heading"
+        android:contentDescription="@string/search_icon" />
 
     <TextView
         android:layout_width="wrap_content"
